@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Mobile app: Pacemaker-style AI DJ mixer — a touch-first AI-assisted DJ mixing experience with dual decks, gesture controls, reactive neon visuals, track analysis, AI transitions/recommendations, recording/sharing, and beginner/pro modes.",
+  "architectural_notes": [
+    "Design philosophy: app should feel like an instrument; every gesture yields immediate musical feedback",
+    "Experience goal: enable non-DJs to sound professional within seconds while retaining deep control for advanced users"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Minimal neon metronome/pacemaker-inspired app icon on dark background (app-icon.dim_1024x1024.png)\n- Subtle dark neon grid/particle background texture (neon-bg-texture.dim_2048x2048.png)\n- Set of 6 monochrome neon line icons: play, pause, cue, loop, fx, sync (dj-icons-sprite.dim_1024x1024.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-a-mobile-first-core-dj-mixing-ui-with-two-virtual-decks-and-a-central-crossfader-each-deck-must-display-a-scrolling-waveform-bpm-key-track-progress-and-loop-cue-controls-the-crossfader-must-blend-the-audible-output-between-decks",
+      "title": "Implement a mobile-first core DJ mixing UI with two virtual decks and a central crossfader. Each deck must display a scrolling waveform, BPM, key, track progress, and loop/cue controls; the crossfader must blend the audible output between decks.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-music-input-flows-that-allow-users-to-import-audio-from-local-files-provide-a-clear-ui-affordance-for-connecting-to-a-streaming-library-as-a-placeholder-integration-ui-data-model-without-relying-on-unsupported-third-party-auth-or-proprietary-sdks",
+      "title": "Add music input flows that allow users to import audio from local files. Provide a clear UI affordance for connecting to a streaming library as a placeholder integration (UI + data model), without relying on unsupported third-party auth or proprietary SDKs.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-perform-client-side-track-analysis-when-a-track-is-imported-loaded-estimate-bpm-musical-key-waveform-data-for-rendering-and-compute-an-energy-metric-infer-a-simple-structure-timeline-intro-verse-drop-outro-suitable-for-ui-markers-and-ai-mixing-heuristics",
+      "title": "Perform client-side track analysis when a track is imported/loaded: estimate BPM, musical key, waveform data for rendering, and compute an energy metric; infer a simple structure timeline (intro/verse/drop/outro) suitable for UI markers and AI mixing heuristics.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-gesture-based-performance-interactions-swipe-to-crossfade-pinch-to-control-filters-tap-to-trigger-effects-press-and-hold-for-looping-and-circular-motion-gestures-for-eq-fx-modulation-gestures-must-work-with-touch-and-pointer-events",
+      "title": "Implement gesture-based performance interactions: swipe to crossfade, pinch to control filters, tap to trigger effects, press-and-hold for looping, and circular motion gestures for EQ/FX modulation. Gestures must work with touch and pointer events.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-core-mixing-and-ai-assisted-features-automatic-beatmatching-tempo-sync-between-decks-a-one-tap-ai-transition-that-performs-a-musical-transition-between-the-current-and-next-deck-intelligent-track-recommendations-based-on-key-bpm-energy-and-a-continuous-auto-mix-mode-that-sequences-tracks-like-a-dj-set",
+      "title": "Add core mixing and AI-assisted features: automatic beatmatching/tempo sync between decks, a one-tap “AI transition” that performs a musical transition between the current and next deck, intelligent track recommendations based on key/BPM/energy, and a continuous auto-mix mode that sequences tracks like a DJ set.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-effects-and-performance-tools-per-deck-lpf-hpf-filter-echo-reverb-beat-repeat-quantized-looping-and-hot-cues-controls-must-be-touch-friendly-and-designed-for-real-time-performance",
+      "title": "Implement effects and performance tools per deck: LPF/HPF filter, echo, reverb, beat repeat, quantized looping, and hot cues. Controls must be touch-friendly and designed for real-time performance.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-dark-minimal-neon-accented-visual-system-with-smooth-rhythmic-animations-waveforms-and-background-elements-must-react-in-real-time-to-audio-frequency-and-intensity-to-create-a-visually-reactive-performance-feel",
+      "title": "Create a dark, minimal, neon-accented visual system with smooth, rhythmic animations. Waveforms and background elements must react in real time to audio frequency and intensity to create a visually reactive performance feel.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-onboarding-and-mode-selection-with-two-modes-beginner-mode-with-ai-assistance-that-keeps-playback-and-mixing-in-sync-automatically-and-pro-mode-that-enables-full-manual-control-of-sync-and-performance-parameters",
+      "title": "Add onboarding and mode selection with two modes: Beginner mode with AI assistance that keeps playback and mixing in sync automatically, and Pro mode that enables full manual control of sync and performance parameters.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-support-recording-the-mixed-output-as-a-single-audio-file-on-the-client-and-provide-export-share-options-at-minimum-download-to-device-persist-only-lightweight-metadata-in-the-backend-e-g-mix-title-timestamps-track-ids-avoiding-uploading-large-audio-binaries-to-the-canister-by-default",
+      "title": "Support recording the mixed output as a single audio file on the client and provide export/share options (at minimum: download to device). Persist only lightweight metadata in the backend (e.g., mix title, timestamps, track IDs), avoiding uploading large audio binaries to the canister by default.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-define-and-apply-a-coherent-visual-theme-consistent-with-the-product-domain-instrument-not-tool-typography-spacing-component-styling-interaction-feedback-and-motion-guidelines-must-be-applied-consistently-across-all-screens-in-the-app",
+      "title": "Define and apply a coherent visual theme consistent with the product domain (“instrument, not tool”): typography, spacing, component styling, interaction feedback, and motion guidelines must be applied consistently across all screens in the app.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-required-generated-static-images-to-the-project-under-frontend-public-assets-generated-and-use-them-in-the-ui-e-g-app-icon-and-subtle-background-texture-without-routing-image-delivery-through-the-backend",
+      "title": "Add required generated static images to the project under frontend/public/assets/generated and use them in the UI (e.g., app icon and subtle background texture), without routing image delivery through the backend.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create mobile app project “Pacemaker-style AI DJ mixer” (touch-first DJ mixing experience)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Music input: import local audio files and connect to a streaming library",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Track analysis: detect BPM, key, waveform, energy level, and song structure (intro/verse/drop/outro)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Main DJ UI: two virtual decks + central crossfader with waveform, BPM/key, progress, loop & cue controls",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Gesture-based interaction: swipe crossfade, pinch filters, tap FX, hold looping, circular EQ/FX modulation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "AI mixing features: auto beatmatching/tempo sync, key/BPM/energy-based recommendations, one-tap AI transition, continuous auto-mix mode",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Effects/performance tools: LPF/HPF, echo/reverb, beat repeat, quantized looping, hot cues",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Visual system: dark minimal neon UI with real-time audio-reactive waveforms/background and smooth rhythmic animations",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Recording & sharing: record mix to single audio file and export/share",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Onboarding + modes: beginner mode with AI assistance and pro mode with full manual control",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Implement backend persistence in the single Motoko main actor for user-scoped library and session data: imported track metadata (including analysis results) and recorded mix session metadata. Provide query/update methods needed by the frontend via the generated actor interface.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Pacemaker-style AI DJ mixer",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

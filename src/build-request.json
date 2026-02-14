@@ -1,0 +1,254 @@
+{
+  "kind": "build_request",
+  "title": "Pacemaker-style AI DJ mixer (mobile-first dual-deck mixer with track analysis, AI-assisted mixing, gestures, reactive neon UI, and recording/export)",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Implement a mobile-first core DJ mixing UI with two virtual decks and a central crossfader. Each deck must display a scrolling waveform, BPM, key, track progress, and loop/cue controls; the crossfader must blend the audible output between decks.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Main interface:\nTwo virtual decks and a central crossfader.\nEach deck shows:\n\nscrolling waveform\n\nBPM and key\n\ntrack progress\n\nloop and cue controls"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On a phone-sized viewport, two decks and a central crossfader are usable without horizontal scrolling.",
+        "Each deck renders a waveform view that scrolls during playback.",
+        "Each deck shows BPM, key, and progress/time position.",
+        "Crossfader interaction changes the mix between deck A and deck B audibly (not just visually)."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Add music input flows that allow users to import audio from local files. Provide a clear UI affordance for connecting to a streaming library as a placeholder integration (UI + data model), without relying on unsupported third-party auth or proprietary SDKs.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Music input:\nAllow users to import audio from local files or connect to a streaming library."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can select at least one local audio file and load it onto either deck for playback.",
+        "The app includes a “Connect streaming library” entry point that is clearly marked as a placeholder/coming soon or uses a generic mock catalog (no broken buttons).",
+        "No third-party OAuth login is required to run the app."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Perform client-side track analysis when a track is imported/loaded: estimate BPM, musical key, waveform data for rendering, and compute an energy metric; infer a simple structure timeline (intro/verse/drop/outro) suitable for UI markers and AI mixing heuristics.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "The system analyses each track for BPM, key, waveform, energy level, and structure (intro, verse, drop, outro)."
+        ]
+      },
+      "acceptanceCriteria": [
+        "After loading a track, the UI shows non-empty BPM and key values (with a visible “Analyzing…” state while processing).",
+        "Waveform rendering uses computed waveform data (not a static placeholder) and is aligned with track duration.",
+        "An energy value is computed and displayed or used in recommendations/automix logic.",
+        "A structure timeline (intro/verse/drop/outro) is produced and visible as markers or labels in the deck UI."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Implement gesture-based performance interactions: swipe to crossfade, pinch to control filters, tap to trigger effects, press-and-hold for looping, and circular motion gestures for EQ/FX modulation. Gestures must work with touch and pointer events.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Interaction design:\nAll controls are gesture-based and performance-friendly:\n\nswipe to crossfade\n\npinch to control filters\n\ntap to trigger effects\n\nhold for looping\n\ncircular motion for EQ or FX modulation"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Swiping across the crossfader area updates the crossfader position smoothly and continuously.",
+        "Pinch gestures on a designated deck/FX area adjust a filter parameter (LPF/HPF) with clear visual feedback.",
+        "Tapping an FX pad/button triggers a momentary effect (e.g., beat repeat or echo) with immediate audible change.",
+        "Press-and-hold on a loop control engages looping; releasing disengages (or toggles per design, but consistent).",
+        "Circular motion on an EQ/FX control changes a modulation parameter and is visually indicated."
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Add core mixing and AI-assisted features: automatic beatmatching/tempo sync between decks, a one-tap “AI transition” that performs a musical transition between the current and next deck, intelligent track recommendations based on key/BPM/energy, and a continuous auto-mix mode that sequences tracks like a DJ set.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "AI features:\n\nautomatic beatmatching and tempo sync\n\nintelligent track recommendations based on key, BPM, and energy\n\none-tap “AI transition” that creates a smooth, musical mix between two tracks\n\ncontinuous auto-mix mode that behaves like a professional DJ set"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A “Sync” action aligns tempo between decks and keeps them in sync during playback (within practical client-side limits).",
+        "An “AI Transition” action performs a multi-step transition (e.g., gradual crossfade + filter/echo) and results in a perceptibly smooth handoff.",
+        "Recommendations list is generated from available tracks (local imports and/or mock catalog) and ranked using key/BPM/energy compatibility.",
+        "Auto-mix mode can be started/stopped and will automatically choose the next track and transition without manual crossfader interaction."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement effects and performance tools per deck: LPF/HPF filter, echo, reverb, beat repeat, quantized looping, and hot cues. Controls must be touch-friendly and designed for real-time performance.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Effects and performance tools:\n\nfilter (LPF/HPF)\n\necho and reverb\n\nbeat repeat\n\nlooping with quantisation\n\nhot cues"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each deck has independently controllable LPF/HPF filter with an obvious on-screen control and audible effect.",
+        "Echo and reverb can be enabled/adjusted and are audible during playback.",
+        "Beat repeat can be triggered and locks to a musical subdivision (e.g., 1/2, 1/4, 1/8).",
+        "Looping supports quantization to the beat grid produced by BPM analysis/sync.",
+        "Users can set and trigger multiple hot cues per track; cue triggers jump playback to the cue point reliably."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Create a dark, minimal, neon-accented visual system with smooth, rhythmic animations. Waveforms and background elements must react in real time to audio frequency and intensity to create a visually reactive performance feel.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Visual system:\nThe UI should be dark, minimal, and neon-accented.\nWaveforms and background elements react in real time to frequency and intensity of the music.\nAnimations must feel smooth and rhythmic, never static."
+        ]
+      },
+      "acceptanceCriteria": [
+        "App uses a consistent dark theme with neon accents (avoid blue/purple as the primary palette unless necessary).",
+        "There are no “static screens” during playback: at least waveform + one background/accent element reacts to audio intensity/frequency.",
+        "Animations run smoothly on mobile and feel rhythmically tied to the audio (no excessive jank during playback)."
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Add onboarding and mode selection with two modes: Beginner mode with AI assistance that keeps playback and mixing in sync automatically, and Pro mode that enables full manual control of sync and performance parameters.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Onboarding:\nA beginner mode with AI assistance that keeps everything in sync automatically.\nA pro mode with full manual control."
+        ]
+      },
+      "acceptanceCriteria": [
+        "First-time users see an onboarding flow that explains core gestures and offers Beginner vs Pro mode choice.",
+        "Beginner mode defaults to sync-on and offers guardrails to prevent obvious clashes (e.g., encourages AI transition/autofade).",
+        "Pro mode exposes manual controls (e.g., ability to disable sync and adjust parameters directly).",
+        "Users can switch modes from settings without losing app stability."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Support recording the mixed output as a single audio file on the client and provide export/share options (at minimum: download to device). Persist only lightweight metadata in the backend (e.g., mix title, timestamps, track IDs), avoiding uploading large audio binaries to the canister by default.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Recording and sharing:\nAllow users to record their mix as a single audio file and export or share it."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can start/stop recording while mixing.",
+        "Stopping a recording produces a single audio file that can be downloaded locally.",
+        "A mix history list shows recorded sessions with basic metadata (title/time/track list).",
+        "Backend storage does not require uploading large audio files to the canister to function."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Implement backend persistence in the single Motoko main actor for user-scoped library and session data: imported track metadata (including analysis results) and recorded mix session metadata. Provide query/update methods needed by the frontend via the generated actor interface.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Allow users to import audio from local files or connect to a streaming library. The system analyses each track for BPM, key, waveform, energy level, and structure ... Allow users to record their mix as a single audio file and export or share it."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes methods to create/list/get track metadata records including BPM, key, energy, and structure fields.",
+        "Backend exposes methods to create/list mix session records that reference track IDs and include timestamps.",
+        "Data is scoped per user identity where available (Internet Identity integration as provided by the template), with sensible behavior for unauthenticated usage (e.g., local-only or shared demo mode)."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Define and apply a coherent visual theme consistent with the product domain (“instrument, not tool”): typography, spacing, component styling, interaction feedback, and motion guidelines must be applied consistently across all screens in the app.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Design philosophy:\nThe app should feel like an instrument, not a tool. Every gesture produces immediate musical feedback."
+        ]
+      },
+      "acceptanceCriteria": [
+        "All screens share a consistent design system (type scale, spacing, surfaces, neon accents).",
+        "Interactive controls provide immediate visual feedback (pressed/active states, animated transitions) appropriate for performance use.",
+        "No default/unstyled components remain in primary user flows."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Add required generated static images to the project under frontend/public/assets/generated and use them in the UI (e.g., app icon and subtle background texture), without routing image delivery through the backend.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "The UI should be dark, minimal, and neon-accented."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated with the specified filenames.",
+        "At least the app icon (favicon/app header) and a background texture/visual are visibly used in the UI.",
+        "Images are served as static frontend assets (no backend endpoints for images)."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor (all logic in backend/main.mo); only add migration.mo if an upgrade of existing stable state is required.",
+    "Do not edit files under frontend/src/components/ui (compose them instead).",
+    "Do not edit immutable hook/bootstrapping paths listed by the platform: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx.",
+    "Use English for all user-facing text.",
+    "Do not implement unsupported third-party authentication providers; Internet Identity only."
+  ],
+  "nonGoals": [
+    "Full native mobile (iOS/Android) packaging and App Store/Play Store submission.",
+    "Direct integrations with proprietary streaming services requiring their SDKs or OAuth flows (beyond a placeholder/mock or generic integration point).",
+    "Server-side/canister-side audio signal processing or storing large audio blobs by default.",
+    "Real-time multiplayer/collaborative DJ sessions, chat, or WebSocket-based synchronization.",
+    "LLM-based “AI DJ” integrations with external AI providers."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Minimal neon metronome/pacemaker-inspired app icon on dark background (app-icon.dim_1024x1024.png)",
+      "Subtle dark neon grid/particle background texture (neon-bg-texture.dim_2048x2048.png)",
+      "Set of 6 monochrome neon line icons: play, pause, cue, loop, fx, sync (dj-icons-sprite.dim_1024x1024.png)"
+    ],
+    "edits": []
+  }
+}

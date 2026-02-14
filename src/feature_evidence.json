@@ -1,0 +1,251 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-a-mobile-first-core-dj-mixing-ui-with-two-virtual-decks-and-a-central-crossfader-each-deck-must-display-a-scrolling-waveform-bpm-key-track-progress-and-loop-cue-controls-the-crossfader-must-blend-the-audible-output-between-decks",
+      "featureTitle": "Implement a mobile-first core DJ mixing UI with two virtual decks and a central crossfader. Each deck must display a scrolling waveform, BPM, key, track progress, and loop/cue controls; the crossfader must blend the audible output between decks.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/mixer/Crossfader.tsx",
+        "frontend/src/features/mixer/DeckPanel.tsx",
+        "frontend/src/features/mixer/MixerScreen.tsx",
+        "frontend/src/features/mixer/WaveformCanvas.tsx",
+        "frontend/src/lib/audio/AudioEngine.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-music-input-flows-that-allow-users-to-import-audio-from-local-files-provide-a-clear-ui-affordance-for-connecting-to-a-streaming-library-as-a-placeholder-integration-ui-data-model-without-relying-on-unsupported-third-party-auth-or-proprietary-sdks",
+      "featureTitle": "Add music input flows that allow users to import audio from local files. Provide a clear UI affordance for connecting to a streaming library as a placeholder integration (UI + data model), without relying on unsupported third-party auth or proprietary SDKs.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/library/LocalFileImport.tsx",
+        "frontend/src/features/library/StreamingPlaceholder.tsx",
+        "frontend/src/hooks/useTrackLibrary.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-perform-client-side-track-analysis-when-a-track-is-imported-loaded-estimate-bpm-musical-key-waveform-data-for-rendering-and-compute-an-energy-metric-infer-a-simple-structure-timeline-intro-verse-drop-outro-suitable-for-ui-markers-and-ai-mixing-heuristics",
+      "featureTitle": "Perform client-side track analysis when a track is imported/loaded: estimate BPM, musical key, waveform data for rendering, and compute an energy metric; infer a simple structure timeline (intro/verse/drop/outro) suitable for UI markers and AI mixing heuristics.",
+      "files": [
+        "frontend/src/features/mixer/DeckPanel.tsx",
+        "frontend/src/features/mixer/WaveformCanvas.tsx",
+        "frontend/src/hooks/useTrackAnalysis.ts",
+        "frontend/src/lib/analysis/trackAnalysis.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-gesture-based-performance-interactions-swipe-to-crossfade-pinch-to-control-filters-tap-to-trigger-effects-press-and-hold-for-looping-and-circular-motion-gestures-for-eq-fx-modulation-gestures-must-work-with-touch-and-pointer-events",
+      "featureTitle": "Implement gesture-based performance interactions: swipe to crossfade, pinch to control filters, tap to trigger effects, press-and-hold for looping, and circular motion gestures for EQ/FX modulation. Gestures must work with touch and pointer events.",
+      "files": [
+        "frontend/src/features/mixer/Crossfader.tsx",
+        "frontend/src/features/mixer/DeckPanel.tsx",
+        "frontend/src/hooks/useGestures.ts",
+        "frontend/src/lib/audio/AudioEngine.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-core-mixing-and-ai-assisted-features-automatic-beatmatching-tempo-sync-between-decks-a-one-tap-ai-transition-that-performs-a-musical-transition-between-the-current-and-next-deck-intelligent-track-recommendations-based-on-key-bpm-energy-and-a-continuous-auto-mix-mode-that-sequences-tracks-like-a-dj-set",
+      "featureTitle": "Add core mixing and AI-assisted features: automatic beatmatching/tempo sync between decks, a one-tap “AI transition” that performs a musical transition between the current and next deck, intelligent track recommendations based on key/BPM/energy, and a continuous auto-mix mode that sequences tracks like a DJ set.",
+      "files": [
+        "frontend/src/features/mixer/AiControls.tsx",
+        "frontend/src/features/mixer/MixerScreen.tsx",
+        "frontend/src/lib/mix/aiTransition.ts",
+        "frontend/src/lib/mix/beatmatch.ts",
+        "frontend/src/lib/recommendations/recommend.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-effects-and-performance-tools-per-deck-lpf-hpf-filter-echo-reverb-beat-repeat-quantized-looping-and-hot-cues-controls-must-be-touch-friendly-and-designed-for-real-time-performance",
+      "featureTitle": "Implement effects and performance tools per deck: LPF/HPF filter, echo, reverb, beat repeat, quantized looping, and hot cues. Controls must be touch-friendly and designed for real-time performance.",
+      "files": [
+        "frontend/src/features/mixer/DeckPanel.tsx",
+        "frontend/src/features/mixer/PerformanceTools.tsx",
+        "frontend/src/lib/audio/AudioEngine.ts",
+        "frontend/src/lib/audio/effects.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-dark-minimal-neon-accented-visual-system-with-smooth-rhythmic-animations-waveforms-and-background-elements-must-react-in-real-time-to-audio-frequency-and-intensity-to-create-a-visually-reactive-performance-feel",
+      "featureTitle": "Create a dark, minimal, neon-accented visual system with smooth, rhythmic animations. Waveforms and background elements must react in real time to audio frequency and intensity to create a visually reactive performance feel.",
+      "files": [
+        "frontend/src/features/mixer/MixerScreen.tsx",
+        "frontend/src/features/mixer/ReactiveBackdrop.tsx",
+        "frontend/src/features/mixer/WaveformCanvas.tsx",
+        "frontend/src/index.css",
+        "frontend/src/lib/visuals/audioReactive.ts",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-onboarding-and-mode-selection-with-two-modes-beginner-mode-with-ai-assistance-that-keeps-playback-and-mixing-in-sync-automatically-and-pro-mode-that-enables-full-manual-control-of-sync-and-performance-parameters",
+      "featureTitle": "Add onboarding and mode selection with two modes: Beginner mode with AI assistance that keeps playback and mixing in sync automatically, and Pro mode that enables full manual control of sync and performance parameters.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/mixer/MixerScreen.tsx",
+        "frontend/src/features/onboarding/OnboardingModal.tsx",
+        "frontend/src/hooks/useDjMode.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-support-recording-the-mixed-output-as-a-single-audio-file-on-the-client-and-provide-export-share-options-at-minimum-download-to-device-persist-only-lightweight-metadata-in-the-backend-e-g-mix-title-timestamps-track-ids-avoiding-uploading-large-audio-binaries-to-the-canister-by-default",
+      "featureTitle": "Support recording the mixed output as a single audio file on the client and provide export/share options (at minimum: download to device). Persist only lightweight metadata in the backend (e.g., mix title, timestamps, track IDs), avoiding uploading large audio binaries to the canister by default.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/features/mixer/MixerScreen.tsx",
+        "frontend/src/hooks/useMixHistory.ts",
+        "frontend/src/lib/audio/AudioEngine.ts",
+        "frontend/src/lib/audio/recording.ts",
+        "frontend/src/utils/download.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-define-and-apply-a-coherent-visual-theme-consistent-with-the-product-domain-instrument-not-tool-typography-spacing-component-styling-interaction-feedback-and-motion-guidelines-must-be-applied-consistently-across-all-screens-in-the-app",
+      "featureTitle": "Define and apply a coherent visual theme consistent with the product domain (“instrument, not tool”): typography, spacing, component styling, interaction feedback, and motion guidelines must be applied consistently across all screens in the app.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-required-generated-static-images-to-the-project-under-frontend-public-assets-generated-and-use-them-in-the-ui-e-g-app-icon-and-subtle-background-texture-without-routing-image-delivery-through-the-backend",
+      "featureTitle": "Add required generated static images to the project under frontend/public/assets/generated and use them in the UI (e.g., app icon and subtle background texture), without routing image delivery through the backend.",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/features/mixer/PerformanceTools.tsx",
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

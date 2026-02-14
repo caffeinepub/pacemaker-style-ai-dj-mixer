@@ -1,0 +1,158 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-14T19:32:34.625Z",
+  "summary": "Diff adds a substantial frontend mixer experience (dual decks, crossfader wired to audio engine, local file import with analysis hook usage, onboarding + mode selection, reactive visuals, recording + mix history UI) and a new Motoko backend actor for user data. However, several requested DJ features are missing or only partially evidenced (waveform scrolling, full gesture set, full FX set, recommendations/auto-mix, backend structure persistence, and required generated images usage). The diff also introduces unrequested backend access-control/admin-token and user profile features.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Each deck must display a scrolling waveform during playback.",
+      "reason": "WaveformCanvas renders the full waveform with a playhead and 'past' coloring, but no evidence of a horizontally/vertically scrolling waveform view synced to playback (e.g., offset/windowing).",
+      "evidence": [
+        "frontend/src/features/mixer/WaveformCanvas.tsx",
+        "frontend/src/features/mixer/DeckPanel.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Track analysis must infer and persist/show a structure timeline (intro/verse/drop/outro) and compute energy; analysis results must be produced client-side.",
+      "reason": "UI expects analysis.waveform and analysis.structure, but the diff summary does not include the implementation of the analysis logic (e.g., BPM/key estimation, energy computation, structure inference). Only hook usage is shown.",
+      "evidence": [
+        "frontend/src/features/library/LocalFileImport.tsx",
+        "frontend/src/features/mixer/WaveformCanvas.tsx",
+        "frontend/src/features/mixer/DeckPanel.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Implement gesture-based performance interactions including tap-to-trigger effects, press-and-hold looping, and circular motion gestures for EQ/FX modulation (touch + pointer).",
+      "reason": "Crossfader swipe and pinch-to-filter are evidenced, but there is no FX pad/button tap gesture producing an audible effect, no press-and-hold loop behavior (loop is a toggle button), and no circular gesture control evidenced.",
+      "evidence": [
+        "frontend/src/features/mixer/Crossfader.tsx",
+        "frontend/src/features/mixer/PerformanceTools.tsx",
+        "frontend/src/features/onboarding/OnboardingModal.tsx"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Provide intelligent track recommendations and a continuous auto-mix mode that sequences tracks automatically.",
+      "reason": "Sync BPM and AI Transition controls exist, but there is no recommendations list UI/logic and no auto-mix start/stop sequencing behavior evidenced.",
+      "evidence": [
+        "frontend/src/features/mixer/AiControls.tsx",
+        "frontend/src/features/mixer/MixerScreen.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Implement per-deck effects/performance tools: echo, reverb, beat repeat (quantized subdivisions), quantized looping, and hot cues.",
+      "reason": "Only filter (LPF/HPF) and a simple 4-beat loop toggle are shown; no echo/reverb controls, no beat-repeat subdivision, no explicit quantization tied to beat grid beyond a computed 4-beat loop length, and no hot cue set/trigger UI/engine calls are evidenced.",
+      "evidence": [
+        "frontend/src/features/mixer/PerformanceTools.tsx",
+        "frontend/src/features/mixer/AiControls.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Beginner mode defaults to sync-on with guardrails; Pro mode exposes manual controls such as disabling sync.",
+      "reason": "Onboarding and settings allow choosing modes, and beginner mode attempts an auto-sync on load, but there is no explicit 'sync-on by default' toggle/guardrails behavior and no evidence of pro-mode-specific manual sync enable/disable controls surfaced to the user.",
+      "evidence": [
+        "frontend/src/features/onboarding/OnboardingModal.tsx",
+        "frontend/src/features/settings/SettingsDrawer.tsx",
+        "frontend/src/features/mixer/MixerScreen.tsx"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Backend track metadata must include and persist analysis results including BPM, key, energy, and structure fields; expose methods to create/list/get track metadata records.",
+      "reason": "backend/main.mo TrackMetadata includes bpm/key/energy but does not include any structure field; method set is truncated so create/get methods are not fully evidenced either.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "Add required generated static images under frontend/public/assets/generated (app icon, neon background texture, DJ icon sprite) and visibly use at least the app icon and background texture in the UI.",
+      "reason": "UI references the app icon path, but the diff summary does not show the generated image files being added, and there is no evidence that neon-bg-texture is used as a background texture (ReactiveBackdrop is a canvas effect, not the specified static texture).",
+      "evidence": [
+        "frontend/src/features/mixer/MixerHeader.tsx",
+        "frontend/src/features/mixer/ReactiveBackdrop.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Backend role/permission access control with admin secret initialization and permission-gated queries/updates.",
+      "reason": "BuildRequest requires user-scoped persistence but does not request an admin-token bootstrap or permission system; this adds auth/authorization complexity beyond Internet Identity-only sign-in.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "User profile creation flow (ProfileSetupModal) and backend user profile storage APIs.",
+      "reason": "BuildRequest does not include user profiles as a requirement; it focuses on track/mix metadata and mixer functionality.",
+      "evidence": [
+        "frontend/src/features/profile/ProfileSetupModal.tsx",
+        "frontend/src/App.tsx",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "SharingPreferences, Genre types, StreamingLibrary placeholder connection state stored on backend (beyond a simple frontend placeholder entry point).",
+      "reason": "BuildRequest asks for a clear UI affordance placeholder for streaming library; it does not request backend sharing preferences, genres, or backend-managed placeholder libraries.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/features/library/StreamingPlaceholder.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/features/auth/LoginButton.tsx",
+    "frontend/src/features/history/MixHistoryDrawer.tsx",
+    "frontend/src/features/library/LibraryDrawer.tsx",
+    "frontend/src/features/library/LocalFileImport.tsx",
+    "frontend/src/features/library/StreamingPlaceholder.tsx",
+    "frontend/src/features/mixer/AiControls.tsx",
+    "frontend/src/features/mixer/Crossfader.tsx",
+    "frontend/src/features/mixer/DeckPanel.tsx",
+    "frontend/src/features/mixer/MixerHeader.tsx",
+    "frontend/src/features/mixer/MixerScreen.tsx",
+    "frontend/src/features/mixer/PerformanceTools.tsx",
+    "frontend/src/features/mixer/ReactiveBackdrop.tsx",
+    "frontend/src/features/mixer/RecordingControls.tsx",
+    "frontend/src/features/mixer/WaveformCanvas.tsx",
+    "frontend/src/features/onboarding/OnboardingModal.tsx",
+    "frontend/src/features/profile/ProfileSetupModal.tsx",
+    "frontend/src/features/settings/SettingsDrawer.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useDjMode.ts",
+    "frontend/src/hooks/useGestures.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useMixHistory.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/hooks/useTrackAnalysis.ts",
+    "frontend/src/hooks/useTrackLibrary.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/analysis/trackAnalysis.ts",
+    "frontend/src/lib/audio/AudioEngine.ts",
+    "frontend/src/lib/audio/effects.ts",
+    "frontend/src/lib/audio/recording.ts",
+    "frontend/src/lib/mix/aiTransition.ts",
+    "frontend/src/lib/mix/beatmatch.ts",
+    "frontend/src/lib/recommendations/recommend.ts",
+    "frontend/src/lib/visuals/audioReactive.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/utils/download.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

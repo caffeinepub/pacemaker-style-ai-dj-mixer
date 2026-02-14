@@ -1,0 +1,372 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-14T19:32:34.629Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 12,
+    "implemented": 11,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Implement a mobile-first core DJ mixing UI with two virtual decks and a central crossfader. Each deck must display a scrolling waveform, BPM, key, track progress, and loop/cue controls; the crossfader must blend the audible output between decks.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/features/mixer/MixerScreen.tsx",
+          "frontend/src/features/mixer/DeckPanel.tsx",
+          "frontend/src/features/mixer/Crossfader.tsx",
+          "frontend/src/features/mixer/WaveformCanvas.tsx",
+          "frontend/src/lib/audio/AudioEngine.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/App.tsx",
+          "frontend/src/features/mixer/MixerScreen.tsx",
+          "frontend/src/features/mixer/DeckPanel.tsx",
+          "frontend/src/features/mixer/Crossfader.tsx",
+          "frontend/src/features/mixer/WaveformCanvas.tsx",
+          "frontend/src/lib/audio/AudioEngine.ts"
+        ]
+      },
+      {
+        "id": "REQ-10",
+        "summary": "Implement backend persistence in the single Motoko main actor for user-scoped library and session data: imported track metadata (including analysis results) and recorded mix session metadata. Provide query/update methods needed by the frontend via the generated actor interface.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Define and apply a coherent visual theme consistent with the product domain (“instrument, not tool”): typography, spacing, component styling, interaction feedback, and motion guidelines must be applied consistently across all screens in the app.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/index.css",
+          "frontend/src/components/layout/AppShell.tsx",
+          "frontend/src/components/controls/NeonButton.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/index.css",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Add required generated static images to the project under frontend/public/assets/generated and use them in the UI (e.g., app icon and subtle background texture), without routing image delivery through the backend.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/app-icon.dim_1024x1024.png",
+          "frontend/public/assets/generated/neon-bg-texture.dim_2048x2048.png",
+          "frontend/public/assets/generated/dj-icons-sprite.dim_1024x1024.png",
+          "frontend/index.html",
+          "frontend/src/components/layout/AppShell.tsx",
+          "frontend/src/index.css",
+          "frontend/src/components/icons/DjIcon.tsx",
+          "frontend/src/features/mixer/PerformanceTools.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/app-icon.dim_1024x1024.png",
+          "frontend/public/assets/generated/neon-bg-texture.dim_2048x2048.png",
+          "frontend/public/assets/generated/dj-icons-sprite.dim_1024x1024.png",
+          "frontend/index.html",
+          "frontend/src/index.css",
+          "frontend/src/features/mixer/PerformanceTools.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Add music input flows that allow users to import audio from local files. Provide a clear UI affordance for connecting to a streaming library as a placeholder integration (UI + data model), without relying on unsupported third-party auth or proprietary SDKs.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/features/library/LibraryPanel.tsx",
+          "frontend/src/features/library/LocalFileImport.tsx",
+          "frontend/src/features/library/StreamingPlaceholder.tsx",
+          "frontend/src/lib/catalog/mockStreamingCatalog.ts",
+          "frontend/src/hooks/useTrackLibrary.ts",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/features/library/LocalFileImport.tsx",
+          "frontend/src/features/library/StreamingPlaceholder.tsx",
+          "frontend/src/hooks/useTrackLibrary.ts",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Perform client-side track analysis when a track is imported/loaded: estimate BPM, musical key, waveform data for rendering, and compute an energy metric; infer a simple structure timeline (intro/verse/drop/outro) suitable for UI markers and AI mixing heuristics.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/analysis/trackAnalysis.ts",
+          "frontend/src/lib/analysis/structureInference.ts",
+          "frontend/src/hooks/useTrackAnalysis.ts",
+          "frontend/src/features/mixer/DeckPanel.tsx",
+          "frontend/src/features/mixer/WaveformCanvas.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/analysis/trackAnalysis.ts",
+          "frontend/src/hooks/useTrackAnalysis.ts",
+          "frontend/src/features/mixer/DeckPanel.tsx",
+          "frontend/src/features/mixer/WaveformCanvas.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Implement gesture-based performance interactions: swipe to crossfade, pinch to control filters, tap to trigger effects, press-and-hold for looping, and circular motion gestures for EQ/FX modulation. Gestures must work with touch and pointer events.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useGestures.ts",
+          "frontend/src/features/mixer/Crossfader.tsx",
+          "frontend/src/features/mixer/FxControls.tsx",
+          "frontend/src/lib/audio/AudioEngine.ts",
+          "frontend/src/features/mixer/DeckPanel.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useGestures.ts",
+          "frontend/src/features/mixer/Crossfader.tsx",
+          "frontend/src/lib/audio/AudioEngine.ts",
+          "frontend/src/features/mixer/DeckPanel.tsx"
+        ]
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Add core mixing and AI-assisted features: automatic beatmatching/tempo sync between decks, a one-tap “AI transition” that performs a musical transition between the current and next deck, intelligent track recommendations based on key/BPM/energy, and a continuous auto-mix mode that sequences tracks like a DJ set.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/mix/beatmatch.ts",
+          "frontend/src/lib/mix/aiTransition.ts",
+          "frontend/src/lib/recommendations/recommend.ts",
+          "frontend/src/lib/mix/autoMix.ts",
+          "frontend/src/features/mixer/AiControls.tsx",
+          "frontend/src/features/mixer/MixerScreen.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/mix/beatmatch.ts",
+          "frontend/src/lib/mix/aiTransition.ts",
+          "frontend/src/lib/recommendations/recommend.ts",
+          "frontend/src/features/mixer/AiControls.tsx",
+          "frontend/src/features/mixer/MixerScreen.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Implement effects and performance tools per deck: LPF/HPF filter, echo, reverb, beat repeat, quantized looping, and hot cues. Controls must be touch-friendly and designed for real-time performance.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/audio/effects.ts",
+          "frontend/src/lib/mix/looping.ts",
+          "frontend/src/lib/mix/hotCues.ts",
+          "frontend/src/features/mixer/PerformanceTools.tsx",
+          "frontend/src/lib/audio/AudioEngine.ts",
+          "frontend/src/features/mixer/DeckPanel.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/audio/effects.ts",
+          "frontend/src/features/mixer/PerformanceTools.tsx",
+          "frontend/src/lib/audio/AudioEngine.ts",
+          "frontend/src/features/mixer/DeckPanel.tsx"
+        ]
+      },
+      {
+        "id": "REQ-7",
+        "summary": "Create a dark, minimal, neon-accented visual system with smooth, rhythmic animations. Waveforms and background elements must react in real time to audio frequency and intensity to create a visually reactive performance feel.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/index.css",
+          "frontend/tailwind.config.js",
+          "frontend/src/lib/visuals/audioReactive.ts",
+          "frontend/src/features/mixer/ReactiveBackdrop.tsx",
+          "frontend/src/features/mixer/WaveformCanvas.tsx",
+          "frontend/src/features/mixer/MixerScreen.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/index.css",
+          "frontend/tailwind.config.js",
+          "frontend/src/lib/visuals/audioReactive.ts",
+          "frontend/src/features/mixer/ReactiveBackdrop.tsx",
+          "frontend/src/features/mixer/WaveformCanvas.tsx",
+          "frontend/src/features/mixer/MixerScreen.tsx"
+        ]
+      },
+      {
+        "id": "REQ-8",
+        "summary": "Add onboarding and mode selection with two modes: Beginner mode with AI assistance that keeps playback and mixing in sync automatically, and Pro mode that enables full manual control of sync and performance parameters.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/features/onboarding/OnboardingModal.tsx",
+          "frontend/src/features/settings/SettingsPanel.tsx",
+          "frontend/src/hooks/useDjMode.ts",
+          "frontend/src/features/mixer/MixerScreen.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/features/onboarding/OnboardingModal.tsx",
+          "frontend/src/hooks/useDjMode.ts",
+          "frontend/src/features/mixer/MixerScreen.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Support recording the mixed output as a single audio file on the client and provide export/share options (at minimum: download to device). Persist only lightweight metadata in the backend (e.g., mix title, timestamps, track IDs), avoiding uploading large audio binaries to the canister by default.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/audio/recording.ts",
+          "frontend/src/utils/download.ts",
+          "frontend/src/features/history/MixHistoryPanel.tsx",
+          "frontend/src/hooks/useMixHistory.ts",
+          "frontend/src/lib/audio/AudioEngine.ts",
+          "frontend/src/features/mixer/MixerScreen.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/audio/recording.ts",
+          "frontend/src/utils/download.ts",
+          "frontend/src/hooks/useMixHistory.ts",
+          "frontend/src/lib/audio/AudioEngine.ts",
+          "frontend/src/features/mixer/MixerScreen.tsx",
+          "frontend/src/App.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/authorization/MixinAuthorization.mo",
+    "backend/authorization/access-control.mo",
+    "backend/main.mo",
+    "build-request.json",
+    "build-template/Dockerfile",
+    "build-template/LICENSE",
+    "build-template/README.md",
+    "build-template/deploy.sh",
+    "build-template/icp.yaml",
+    "build-template/package.json",
+    "build-template/pnpm-lock.yaml",
+    "build-template/pnpm-workspace.yaml",
+    "build-template/scripts/prune-unused-images.js",
+    "build-template/scripts/resize-images.js",
+    "build-template/src/backend/canister.yaml",
+    "build-template/src/backend/system-idl/aaaaa-aa.did",
+    "build-template/src/frontend/canister.yaml",
+    "build-template/src/frontend/components.json",
+    "build-template/src/frontend/env.json",
+    "build-template/src/frontend/eslint-rules/no-bigint-in-query-keys.js",
+    "build-template/src/frontend/eslint-rules/require-internet-identity-provider.js",
+    "build-template/src/frontend/eslint.config.js",
+    "build-template/src/frontend/package.json",
+    "build-template/src/frontend/postcss.config.js",
+    "build-template/src/frontend/src/components/ui/accordion.tsx",
+    "build-template/src/frontend/src/components/ui/alert-dialog.tsx",
+    "build-template/src/frontend/src/components/ui/alert.tsx",
+    "build-template/src/frontend/src/components/ui/aspect-ratio.tsx",
+    "build-template/src/frontend/src/components/ui/avatar.tsx",
+    "build-template/src/frontend/src/components/ui/badge.tsx",
+    "build-template/src/frontend/src/components/ui/breadcrumb.tsx",
+    "build-template/src/frontend/src/components/ui/button.tsx",
+    "build-template/src/frontend/src/components/ui/calendar.tsx",
+    "build-template/src/frontend/src/components/ui/card.tsx",
+    "build-template/src/frontend/src/components/ui/carousel.tsx",
+    "build-template/src/frontend/src/components/ui/chart.tsx",
+    "build-template/src/frontend/src/components/ui/checkbox.tsx",
+    "build-template/src/frontend/src/components/ui/collapsible.tsx",
+    "build-template/src/frontend/src/components/ui/command.tsx",
+    "build-template/src/frontend/src/components/ui/context-menu.tsx",
+    "build-template/src/frontend/src/components/ui/dialog.tsx",
+    "build-template/src/frontend/src/components/ui/drawer.tsx",
+    "build-template/src/frontend/src/components/ui/dropdown-menu.tsx",
+    "build-template/src/frontend/src/components/ui/form.tsx",
+    "build-template/src/frontend/src/components/ui/hover-card.tsx",
+    "build-template/src/frontend/src/components/ui/input-otp.tsx",
+    "build-template/src/frontend/src/components/ui/input.tsx",
+    "build-template/src/frontend/src/components/ui/label.tsx",
+    "build-template/src/frontend/src/components/ui/menubar.tsx",
+    "build-template/src/frontend/src/components/ui/navigation-menu.tsx",
+    "build-template/src/frontend/src/components/ui/pagination.tsx",
+    "build-template/src/frontend/src/components/ui/popover.tsx",
+    "build-template/src/frontend/src/components/ui/progress.tsx",
+    "build-template/src/frontend/src/components/ui/radio-group.tsx",
+    "build-template/src/frontend/src/components/ui/resizable.tsx",
+    "build-template/src/frontend/src/components/ui/scroll-area.tsx",
+    "build-template/src/frontend/src/components/ui/select.tsx",
+    "build-template/src/frontend/src/components/ui/separator.tsx",
+    "build-template/src/frontend/src/components/ui/sheet.tsx",
+    "build-template/src/frontend/src/components/ui/sidebar.tsx",
+    "build-template/src/frontend/src/components/ui/skeleton.tsx",
+    "build-template/src/frontend/src/components/ui/slider.tsx",
+    "build-template/src/frontend/src/components/ui/sonner.tsx",
+    "build-template/src/frontend/src/components/ui/switch.tsx",
+    "build-template/src/frontend/src/components/ui/table.tsx",
+    "build-template/src/frontend/src/components/ui/tabs.tsx",
+    "build-template/src/frontend/src/components/ui/textarea.tsx",
+    "build-template/src/frontend/src/components/ui/toggle-group.tsx",
+    "build-template/src/frontend/src/components/ui/toggle.tsx",
+    "build-template/src/frontend/src/components/ui/tooltip.tsx",
+    "build-template/src/frontend/src/hooks/use-mobile.tsx",
+    "build-template/src/frontend/src/lib/utils.ts",
+    "build-template/src/frontend/tsconfig.json",
+    "build-template/src/frontend/vite.config.js",
+    "build-template/tsconfig.json",
+    "caffeine.lock.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/public/assets/generated/app-icon.dim_1024x1024.png",
+    "frontend/public/assets/generated/dj-icons-sprite.dim_1024x1024.png",
+    "frontend/public/assets/generated/neon-bg-texture.dim_2048x2048.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/config.ts",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/features/auth/LoginButton.tsx",
+    "frontend/src/features/history/MixHistoryDrawer.tsx",
+    "frontend/src/features/library/LibraryDrawer.tsx",
+    "frontend/src/features/library/LocalFileImport.tsx",
+    "frontend/src/features/library/StreamingPlaceholder.tsx",
+    "frontend/src/features/mixer/AiControls.tsx",
+    "frontend/src/features/mixer/Crossfader.tsx",
+    "frontend/src/features/mixer/DeckPanel.tsx",
+    "frontend/src/features/mixer/MixerHeader.tsx",
+    "frontend/src/features/mixer/MixerScreen.tsx",
+    "frontend/src/features/mixer/PerformanceTools.tsx",
+    "frontend/src/features/mixer/ReactiveBackdrop.tsx",
+    "frontend/src/features/mixer/RecordingControls.tsx",
+    "frontend/src/features/mixer/WaveformCanvas.tsx",
+    "frontend/src/features/onboarding/OnboardingModal.tsx",
+    "frontend/src/features/profile/ProfileSetupModal.tsx",
+    "frontend/src/features/settings/SettingsDrawer.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useDjMode.ts",
+    "frontend/src/hooks/useGestures.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useMixHistory.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/hooks/useTrackAnalysis.ts",
+    "frontend/src/hooks/useTrackLibrary.ts",
+    "frontend/src/index.css",
+    "frontend/src/lib/analysis/trackAnalysis.ts",
+    "frontend/src/lib/audio/AudioEngine.ts",
+    "frontend/src/lib/audio/effects.ts",
+    "frontend/src/lib/audio/recording.ts",
+    "frontend/src/lib/mix/aiTransition.ts",
+    "frontend/src/lib/mix/beatmatch.ts",
+    "frontend/src/lib/recommendations/recommend.ts",
+    "frontend/src/lib/visuals/audioReactive.ts",
+    "frontend/src/main.tsx",
+    "frontend/src/ui-summary.json",
+    "frontend/src/utils/StorageClient.ts",
+    "frontend/src/utils/download.ts",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

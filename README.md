@@ -1,2 +1,3 @@
-# pacemaker-style-ai-dj-mixer
-Exported from Caffeine project: Pacemaker-style AI DJ mixer
+## Pacemaker-style AI DJ mixer
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

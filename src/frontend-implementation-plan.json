@@ -1,0 +1,457 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Pacemaker-style AI DJ mixer (mobile-first dual-deck mixer with analysis, gestures, neon UI, and recording)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Build the mobile-first dual-deck mixer UI with scrolling waveforms, deck stats/controls, and an audible crossfader mix between decks.",
+      "acceptanceCriteria": [
+        "On a phone-sized viewport, two decks and a central crossfader are usable without horizontal scrolling.",
+        "Each deck renders a waveform view that scrolls during playback.",
+        "Each deck shows BPM, key, and progress/time position.",
+        "Crossfader interaction changes the mix between deck A and deck B audibly (not just visually)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the main single-screen app shell for the mixer (mobile-first layout with two decks + central crossfader + bottom navigation/overlays). Use shadcn-ui building blocks by composing (do not edit files under frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/mixer/MixerScreen.tsx",
+          "operation": "create",
+          "description": "Implement the core mixer screen layout and orchestration (deck A/B panels, crossfader section, transport/progress, loop/cue areas) optimized for phone viewports without horizontal scrolling."
+        },
+        {
+          "path": "frontend/src/features/mixer/DeckPanel.tsx",
+          "operation": "create",
+          "description": "Create a reusable deck UI panel displaying waveform canvas, BPM/key readouts, time/progress, and loop/cue controls wired to the audio engine."
+        },
+        {
+          "path": "frontend/src/features/mixer/Crossfader.tsx",
+          "operation": "create",
+          "description": "Implement a touch-friendly crossfader control that updates mix ratio continuously and drives the audio engine's deck gains (audible blend, not just visuals)."
+        },
+        {
+          "path": "frontend/src/features/mixer/WaveformCanvas.tsx",
+          "operation": "create",
+          "description": "Render computed waveform data to a canvas and animate/scroll it during playback, aligned to track duration and current playback position."
+        },
+        {
+          "path": "frontend/src/lib/audio/AudioEngine.ts",
+          "operation": "create",
+          "description": "Create a client-side Web Audio-based engine that manages two decks, playback, crossfader gain mixing, per-deck routing, and provides current time/progress for UI."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add local file import to load tracks onto either deck, plus a clearly labeled placeholder flow for streaming library connection (mock catalog/UI + data model) without third-party OAuth.",
+      "acceptanceCriteria": [
+        "Users can select at least one local audio file and load it onto either deck for playback.",
+        "The app includes a “Connect streaming library” entry point that is clearly marked as a placeholder/coming soon or uses a generic mock catalog (no broken buttons).",
+        "No third-party OAuth login is required to run the app."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/library/LibraryPanel.tsx",
+          "operation": "create",
+          "description": "Create a library/import panel that supports choosing local audio files and assigning them to deck A or B, plus a visible “Connect streaming library (placeholder)” entry point using a mock catalog (no proprietary SDK/OAuth)."
+        },
+        {
+          "path": "frontend/src/features/library/LocalFileImport.tsx",
+          "operation": "create",
+          "description": "Implement the local file picker flow, decode/validate audio files client-side, and hand off loaded audio to analysis + audio engine (choose target deck)."
+        },
+        {
+          "path": "frontend/src/features/library/StreamingPlaceholder.tsx",
+          "operation": "create",
+          "description": "Implement the placeholder streaming-library UI (clearly marked coming soon) and/or a generic mock catalog to browse/load sample items without third-party auth."
+        },
+        {
+          "path": "frontend/src/lib/catalog/mockStreamingCatalog.ts",
+          "operation": "create",
+          "description": "Add a small in-app mock catalog data source used by the streaming placeholder flow (no network/OAuth requirements)."
+        },
+        {
+          "path": "frontend/src/hooks/useTrackLibrary.ts",
+          "operation": "create",
+          "description": "Create a hook to manage the track list and metadata lifecycle (local-only for guests; optionally sync metadata to backend when authenticated via useActor/useInternetIdentity). Use the authorization component guidance for auth-gated data sync. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the library/import panel into the app navigation (e.g., bottom tab or overlay) so users can reach local import and the streaming placeholder from the primary flow."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Perform client-side analysis on load: BPM, key, waveform data, energy metric, and a simple structure timeline, with visible analyzing states and UI markers.",
+      "acceptanceCriteria": [
+        "After loading a track, the UI shows non-empty BPM and key values (with a visible “Analyzing…” state while processing).",
+        "Waveform rendering uses computed waveform data (not a static placeholder) and is aligned with track duration.",
+        "An energy value is computed and displayed or used in recommendations/automix logic.",
+        "A structure timeline (intro/verse/drop/outro) is produced and visible as markers or labels in the deck UI."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/analysis/trackAnalysis.ts",
+          "operation": "create",
+          "description": "Implement Web Audio-based client-side analysis utilities to estimate BPM, detect key (heuristic), generate waveform peaks for rendering, compute an energy metric, and infer simple structure segments (intro/verse/drop/outro) for UI markers."
+        },
+        {
+          "path": "frontend/src/lib/analysis/structureInference.ts",
+          "operation": "create",
+          "description": "Add a structure inference helper that produces a timeline of labeled sections from energy/onset changes suitable for deck marker rendering."
+        },
+        {
+          "path": "frontend/src/hooks/useTrackAnalysis.ts",
+          "operation": "create",
+          "description": "Create a hook that runs analysis asynchronously upon track load, exposes an “Analyzing…” state, and returns computed BPM/key/waveform/energy/structure data to the UI."
+        },
+        {
+          "path": "frontend/src/features/mixer/DeckPanel.tsx",
+          "operation": "modify",
+          "description": "Display analysis states and results in the deck UI (BPM/key readouts, energy indicator, structure labels/markers along the waveform timeline)."
+        },
+        {
+          "path": "frontend/src/features/mixer/WaveformCanvas.tsx",
+          "operation": "modify",
+          "description": "Consume computed waveform peaks and structure markers to render a scrolling waveform aligned to track duration and overlay structure labels/markers."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Implement touch/pointer gesture controls: swipe crossfade, pinch filter, tap FX, press-and-hold looping, and circular EQ/FX modulation with visual feedback.",
+      "acceptanceCriteria": [
+        "Swiping across the crossfader area updates the crossfader position smoothly and continuously.",
+        "Pinch gestures on a designated deck/FX area adjust a filter parameter (LPF/HPF) with clear visual feedback.",
+        "Tapping an FX pad/button triggers a momentary effect (e.g., beat repeat or echo) with immediate audible change.",
+        "Press-and-hold on a loop control engages looping; releasing disengages (or toggles per design, but consistent).",
+        "Circular motion on an EQ/FX control changes a modulation parameter and is visually indicated."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useGestures.ts",
+          "operation": "create",
+          "description": "Create a unified pointer/touch gesture hook supporting swipe, pinch, long-press, tap, and circular motion detection with stable mobile performance."
+        },
+        {
+          "path": "frontend/src/features/mixer/Crossfader.tsx",
+          "operation": "modify",
+          "description": "Wire swipe gestures (pointer/touch) to continuously update crossfader position, with clear visual feedback and corresponding audio mix updates."
+        },
+        {
+          "path": "frontend/src/features/mixer/FxControls.tsx",
+          "operation": "create",
+          "description": "Create a touch-first FX control surface per deck: pinch area for filter, tap pads for momentary effects, long-press loop control, and circular gesture control for modulation with visual indication."
+        },
+        {
+          "path": "frontend/src/lib/audio/AudioEngine.ts",
+          "operation": "modify",
+          "description": "Expose audio-engine setters for gesture-driven parameters (crossfader, per-deck filter cutoff/type, momentary FX triggers, loop enable/disable, modulation values) and ensure changes are audible immediately."
+        },
+        {
+          "path": "frontend/src/features/mixer/DeckPanel.tsx",
+          "operation": "modify",
+          "description": "Integrate gesture-enabled FX controls into each deck panel and ensure touch targets/feedback are performance-friendly."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Add core mixing + AI-assisted features: tempo sync, one-tap AI transition, key/BPM/energy-based recommendations, and continuous auto-mix sequencing.",
+      "acceptanceCriteria": [
+        "A “Sync” action aligns tempo between decks and keeps them in sync during playback (within practical client-side limits).",
+        "An “AI Transition” action performs a multi-step transition (e.g., gradual crossfade + filter/echo) and results in a perceptibly smooth handoff.",
+        "Recommendations list is generated from available tracks (local imports and/or mock catalog) and ranked using key/BPM/energy compatibility.",
+        "Auto-mix mode can be started/stopped and will automatically choose the next track and transition without manual crossfader interaction."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/mix/beatmatch.ts",
+          "operation": "create",
+          "description": "Implement client-side beatmatching/tempo sync helpers that compute and apply playback-rate adjustments based on analyzed BPM and current deck tempo state."
+        },
+        {
+          "path": "frontend/src/lib/mix/aiTransition.ts",
+          "operation": "create",
+          "description": "Implement an “AI transition” routine that schedules a short sequence of mix moves (e.g., filter sweep + echo tail + smooth crossfade) using the audio engine’s parameter controls."
+        },
+        {
+          "path": "frontend/src/lib/recommendations/recommend.ts",
+          "operation": "create",
+          "description": "Implement recommendation scoring/ranking based on key compatibility, BPM proximity, and energy progression, using available local tracks and/or the mock catalog."
+        },
+        {
+          "path": "frontend/src/lib/mix/autoMix.ts",
+          "operation": "create",
+          "description": "Implement auto-mix mode controller that selects next tracks, preloads to the idle deck, and triggers AI transitions continuously until stopped."
+        },
+        {
+          "path": "frontend/src/features/mixer/AiControls.tsx",
+          "operation": "create",
+          "description": "Create UI controls for Sync, AI Transition, recommendations panel, and Auto-mix start/stop. Use shadcn-ui components by composing (do not edit frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/mixer/MixerScreen.tsx",
+          "operation": "modify",
+          "description": "Wire Sync/AI Transition/Auto-mix controls into the primary mixer flow and connect them to analysis data + audio engine."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement per-deck effects and performance tools: LPF/HPF, echo, reverb, beat repeat, quantized looping, and hot cues with touch-friendly controls.",
+      "acceptanceCriteria": [
+        "Each deck has independently controllable LPF/HPF filter with an obvious on-screen control and audible effect.",
+        "Echo and reverb can be enabled/adjusted and are audible during playback.",
+        "Beat repeat can be triggered and locks to a musical subdivision (e.g., 1/2, 1/4, 1/8).",
+        "Looping supports quantization to the beat grid produced by BPM analysis/sync.",
+        "Users can set and trigger multiple hot cues per track; cue triggers jump playback to the cue point reliably."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/audio/effects.ts",
+          "operation": "create",
+          "description": "Add reusable Web Audio effect node builders/controls for per-deck filter (LPF/HPF), echo (delay/feedback), reverb (convolver), and beat repeat (buffered loop/segment repeat) designed for real-time control."
+        },
+        {
+          "path": "frontend/src/lib/mix/looping.ts",
+          "operation": "create",
+          "description": "Implement quantized looping logic that snaps loop in/out to beat grid derived from BPM analysis/sync, and supports press-and-hold behavior."
+        },
+        {
+          "path": "frontend/src/lib/mix/hotCues.ts",
+          "operation": "create",
+          "description": "Implement hot cue storage per track (multiple cue points) and reliable seek/jump behavior via the audio engine."
+        },
+        {
+          "path": "frontend/src/features/mixer/PerformanceTools.tsx",
+          "operation": "create",
+          "description": "Create the per-deck performance UI (filter control, echo/reverb toggles/sliders, beat repeat pads with subdivisions, loop controls, and hot cue pads) optimized for touch performance."
+        },
+        {
+          "path": "frontend/src/lib/audio/AudioEngine.ts",
+          "operation": "modify",
+          "description": "Integrate per-deck effect chains and expose real-time control APIs for filter/echo/reverb/beat-repeat, quantized looping, and hot cue jumps."
+        },
+        {
+          "path": "frontend/src/features/mixer/DeckPanel.tsx",
+          "operation": "modify",
+          "description": "Wire performance tools into each deck panel and ensure independent control per deck with clear active states."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Create a dark minimal neon UI with smooth rhythmic animations; make waveforms and background react to real-time audio frequency/intensity.",
+      "acceptanceCriteria": [
+        "App uses a consistent dark theme with neon accents (avoid blue/purple as the primary palette unless necessary).",
+        "There are no “static screens” during playback: at least waveform + one background/accent element reacts to audio intensity/frequency.",
+        "Animations run smoothly on mobile and feel rhythmically tied to the audio (no excessive jank during playback)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Define global dark theme tokens (CSS variables for shadcn/Tailwind), neon accent palette (non-blue/purple primary), baseline typography/spacing, and motion-friendly defaults for the app."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Extend Tailwind theme with neon-accent utility tokens (via CSS variables) and any needed animation keyframes tuned for smooth mobile performance."
+        },
+        {
+          "path": "frontend/src/lib/visuals/audioReactive.ts",
+          "operation": "create",
+          "description": "Implement an audio-reactive visual driver using AnalyserNode to compute intensity/frequency bands and expose smoothed values for UI animations."
+        },
+        {
+          "path": "frontend/src/features/mixer/ReactiveBackdrop.tsx",
+          "operation": "create",
+          "description": "Create a lightweight reactive background/accent layer (e.g., grid glow/particles) driven by audio intensity/frequency values, designed to avoid jank on mobile."
+        },
+        {
+          "path": "frontend/src/features/mixer/WaveformCanvas.tsx",
+          "operation": "modify",
+          "description": "Add audio-reactive rendering accents (e.g., glow/intensity scaling) tied to analyser-driven intensity while keeping waveform scroll performant."
+        },
+        {
+          "path": "frontend/src/features/mixer/MixerScreen.tsx",
+          "operation": "modify",
+          "description": "Wire the reactive backdrop into the mixer screen so playback always has at least one audio-reactive background/accent element."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Add onboarding and mode selection (Beginner vs Pro), with guardrails and defaults appropriate to each mode and a settings switch.",
+      "acceptanceCriteria": [
+        "First-time users see an onboarding flow that explains core gestures and offers Beginner vs Pro mode choice.",
+        "Beginner mode defaults to sync-on and offers guardrails to prevent obvious clashes (e.g., encourages AI transition/autofade).",
+        "Pro mode exposes manual controls (e.g., ability to disable sync and adjust parameters directly).",
+        "Users can switch modes from settings without losing app stability."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/features/onboarding/OnboardingModal.tsx",
+          "operation": "create",
+          "description": "Create a first-run onboarding modal that explains core gestures and prompts for Beginner vs Pro mode selection. Use shadcn-ui dialog primitives by composing (do not edit frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/features/settings/SettingsPanel.tsx",
+          "operation": "create",
+          "description": "Create settings UI to switch Beginner/Pro mode and explain differences; ensure switching updates behavior without instability."
+        },
+        {
+          "path": "frontend/src/hooks/useDjMode.ts",
+          "operation": "create",
+          "description": "Implement persistent mode state (e.g., localStorage) with helpers to apply defaults (Beginner: sync/autofade recommendations on; Pro: manual control exposed)."
+        },
+        {
+          "path": "frontend/src/features/mixer/MixerScreen.tsx",
+          "operation": "modify",
+          "description": "Apply mode rules to mixer behavior (Beginner defaults: Sync enabled, AI transition encouraged; Pro: manual sync toggle and direct parameter controls)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire onboarding display on first launch and wire settings panel into navigation so users can switch modes later."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Record the mixed output client-side into a single downloadable audio file; show mix history with metadata and optionally sync metadata to backend without uploading audio binaries.",
+      "acceptanceCriteria": [
+        "Users can start/stop recording while mixing.",
+        "Stopping a recording produces a single audio file that can be downloaded locally.",
+        "A mix history list shows recorded sessions with basic metadata (title/time/track list).",
+        "Backend storage does not require uploading large audio files to the canister to function."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/audio/recording.ts",
+          "operation": "create",
+          "description": "Implement client-side recording of the mixed output using a MediaStreamDestination + MediaRecorder pipeline, returning a single Blob suitable for download."
+        },
+        {
+          "path": "frontend/src/utils/download.ts",
+          "operation": "create",
+          "description": "Add a small utility to trigger a local download of the recorded audio Blob with an English filename derived from mix title/timestamp."
+        },
+        {
+          "path": "frontend/src/features/history/MixHistoryPanel.tsx",
+          "operation": "create",
+          "description": "Create a mix history panel listing recorded sessions (title/time/track list) and offering download for locally recorded files; optionally sync lightweight metadata to backend when authenticated via useActor."
+        },
+        {
+          "path": "frontend/src/hooks/useMixHistory.ts",
+          "operation": "create",
+          "description": "Create a hook to manage mix session metadata locally and (when authenticated) sync lightweight metadata using the generated actor interface; do not upload large audio binaries by default."
+        },
+        {
+          "path": "frontend/src/lib/audio/AudioEngine.ts",
+          "operation": "modify",
+          "description": "Expose the mixed output node needed for recording (post-crossfader, post-master effects) and add start/stop recording integration points."
+        },
+        {
+          "path": "frontend/src/features/mixer/MixerScreen.tsx",
+          "operation": "modify",
+          "description": "Add record controls (start/stop) to the mixer UI and wire them to the recording pipeline; on stop, create a downloadable file and add an entry to mix history metadata."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire mix history panel into navigation so users can review recordings and download them."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Apply a consistent “instrument, not tool” design system across screens: typography, spacing, component styling, interaction feedback, and motion.",
+      "acceptanceCriteria": [
+        "All screens share a consistent design system (type scale, spacing, surfaces, neon accents).",
+        "Interactive controls provide immediate visual feedback (pressed/active states, animated transitions) appropriate for performance use.",
+        "No default/unstyled components remain in primary user flows."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Refine global design tokens for consistent typography scale, spacing, surfaces, neon accent usage, and interaction feedback/motion guidelines across the app."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "create",
+          "description": "Create a reusable app shell that standardizes headers/footers, spacing, surfaces, and motion/feedback patterns across mixer, library, history, and settings screens."
+        },
+        {
+          "path": "frontend/src/components/controls/NeonButton.tsx",
+          "operation": "create",
+          "description": "Create a composed control component that wraps shadcn-ui primitives with neon-accented styling and consistent pressed/active/disabled states (do not edit frontend/src/components/ui). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Adopt AppShell and shared controls across screens so primary flows are consistently styled and feel performance-instrument-like."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Add required generated static images under frontend/public/assets/generated and visibly use them in the UI (icon + background texture + DJ icon sprite) as static assets.",
+      "acceptanceCriteria": [
+        "Generated images exist under frontend/public/assets/generated with the specified filenames.",
+        "At least the app icon (favicon/app header) and a background texture/visual are visibly used in the UI.",
+        "Images are served as static frontend assets (no backend endpoints for images)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/app-icon.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Add the generated static image asset at frontend/public/assets/generated/app-icon.dim_1024x1024.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/neon-bg-texture.dim_2048x2048.png",
+          "operation": "create",
+          "description": "Add the generated static image asset at frontend/public/assets/generated/neon-bg-texture.dim_2048x2048.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/dj-icons-sprite.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Add the generated static image asset at frontend/public/assets/generated/dj-icons-sprite.dim_1024x1024.png."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Wire the app icon as the site favicon/app icon using the static asset at frontend/public/assets/generated/app-icon.dim_1024x1024.png (served directly by the frontend)."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "modify",
+          "description": "Use the static app icon asset frontend/public/assets/generated/app-icon.dim_1024x1024.png in the app header/branding area (no backend image delivery)."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Apply the static background texture frontend/public/assets/generated/neon-bg-texture.dim_2048x2048.png as a subtle app background layer and ensure it respects the dark neon theme."
+        },
+        {
+          "path": "frontend/src/components/icons/DjIcon.tsx",
+          "operation": "create",
+          "description": "Create an icon component that references the static sprite frontend/public/assets/generated/dj-icons-sprite.dim_1024x1024.png for play/pause/cue/loop/fx/sync visuals."
+        },
+        {
+          "path": "frontend/src/features/mixer/PerformanceTools.tsx",
+          "operation": "modify",
+          "description": "Use DjIcon (sprite-based) for performance controls (play/pause/cue/loop/fx/sync) to ensure consistent neon iconography."
+        }
+      ]
+    }
+  ]
+}
